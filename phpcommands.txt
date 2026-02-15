@@ -1,0 +1,8 @@
+create controller
+    " php artisan make:controller controllerName "
+
+create migration
+    " php artisan make:migration create_migrationName "
+
+refresh database
+    " php artisan migrate:fresh "
