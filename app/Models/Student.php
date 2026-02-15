@@ -16,9 +16,20 @@ class Student extends Authenticatable
         'password',
     ];
 
-
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the courses that the student is enrolled in.
+     */
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'enrollments', 'student_id', 'course_id');
+    }
 }

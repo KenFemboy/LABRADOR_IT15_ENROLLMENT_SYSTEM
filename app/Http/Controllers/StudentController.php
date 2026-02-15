@@ -58,4 +58,48 @@ class StudentController extends Controller
           $students = Student::orderBy('student_number')->get();
           return view('allStudents', ['students' => $students]);
      }
+
+     public function enrollCourse(Request $request){
+        $request->validate([
+            'course_id' => ['required','exists:courses,id'],
+        ]);
+
+        $student = auth()->user();
+        $courseId = $request->input('course_id');
+        
+        // Check if already enrolled
+        if ($student->courses()->where('course_id', $courseId)->exists()) {
+            return redirect('/courses')->withErrors(['message' => 'You are already enrolled in this course.']);
+        }
+
+        // Check if course has capacity
+        $course = Course::find($courseId);
+        if ($course->capacity <= 0) {
+            return redirect('/courses')->withErrors(['message' => 'This course is full.']);
+        }
+
+        // Enroll student and decrement capacity
+        $student->courses()->attach($courseId);
+        $course->decrement('capacity');
+
+        $courses = Course::all();
+        return view('studentdashboard', ['courses' => $courses])->with('success', 'You have been enrolled in ' . $course->course_name);
+     }
+
+     public function unenrollCourse(Request $request){
+        $request->validate([
+            'course_id' => ['required','exists:courses,id'],
+        ]);
+
+        $student = auth()->user();
+        $courseId = $request->input('course_id');
+        
+        // Unenroll student and increment capacity
+        $student->courses()->detach($courseId);
+        $course = Course::find($courseId);
+        $course->increment('capacity');
+
+        $courses = Course::all();
+        return view('studentdashboard', ['courses' => $courses])->with('success', 'You have been unenrolled from ' . $course->course_name);
+     }
 }

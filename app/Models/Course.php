@@ -12,4 +12,11 @@ class Course extends Model
         'capacity',
     ];
 
+    /**
+     * Get the students enrolled in this course.
+     */
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'enrollments', 'course_id', 'student_id');
+    }
 }

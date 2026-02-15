@@ -10,6 +10,6 @@ class CoursesController extends Controller
 {
     public function showCourses(Request $request){
         $courses = Course::all();
-        return view('studentdashboard', ['courses' => $courses]);
+        return view('courses', ['courses' => $courses]);
     }
 }
