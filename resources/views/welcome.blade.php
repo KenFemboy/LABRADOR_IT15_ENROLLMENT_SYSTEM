@@ -6,6 +6,13 @@
     
     <body>
         <div>
+        @if(session('success'))
+    <div style="background: #d4edda; padding: 10px; border-radius: 5px; color: #155724;">
+        {{ session('success') }}
+    </div>
+@endif
+
+
             <form action="/register" method="POST">
                 @csrf
                 <h1>Student Registration</h1>
@@ -14,26 +21,25 @@
                 <input name="student_number" type="text" placeholder="Enter Student Number" required>
 
                 <input name="email" type="email" placeholder="Enter Email" required>
+                <input name="password" type="password" placeholder="Enter Password" required>
                 <button type="submit">Register</button>
 
             </form>
 
-            <form action="/register" method="POST">
+            <form action="/login" method="POST">
                 @csrf
                 <h1>Student Login</h1>
-                 <input name="first_name" type="text" placeholder="Enter First Name" required>
-                <input name="last_name" type="text" placeholder="Enter Last Name" required>
                 <input name="email" type="email" placeholder="Enter Email" required>
+                <input name="password" type="password" placeholder="Enter Password" required>
                 <button type="submit">Login</button>
-            
+
             </form>
         </div>
         
 
 
-        <form action="/courses" method="POST">
-            @csrf
-            <button >Go to Courses</button>
+        <form action="/courses" method="GET">
+            <button>Go to Courses</button>
         </form>
         
     </body>
