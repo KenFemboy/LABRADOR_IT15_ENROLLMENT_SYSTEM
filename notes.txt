@@ -1,0 +1,3 @@
+DB does not exists (fixed)
+    -.env change "sqlite" to "mysql"
+
